@@ -1,0 +1,58 @@
+version: "3"
+services:
+  pineapple-api:
+      container_name: pineapple-api
+      # image: thecodingmachine/php:7.3-v3-apache
+      build: 
+        context: ./.docker/api
+        dockerfile: Dockerfile
+      ports:
+        - 80:80
+      volumes:
+        - ./:/var/www/html
+      restart: always
+      environment:
+        APACHE_RUN_USER: docker
+        APACHE_RUN_GROUP: docker
+        APACHE_DOCUMENT_ROOT: public/
+        PHP_EXTENSIONS: ctype curl dom mbstring intl xml xmlreader xmlwriter redis gd bcmath bz2 yaml
+        PHP_INI_UPLOAD_MAX_FILESIZE: 200M
+        PHP_INI_MAX_EXECUTION_TIME: 300
+        PHP_INI_MEMORY_LIMIT: -1
+        STARTUP_COMMAND_1: composer install
+        STARTUP_COMMAND_2: checkenv
+        
+        PHP_EXTENSION_XDEBUG: 1
+        PHP_INI_XDEBUG__REMOTE_ENABLE: "on"
+        PHP_INI_XDEBUG__REMOTE_HOST: host.docker.internal
+        PHP_INI_XDEBUG__REMOTE_HANDLER: "dbgp"
+        PHP_INI_XDEBUG__REMOTE_PORT: 9000
+        PHP_INI_XDEBUG__REMOTE_AUTOSTART: "1"
+        PHP_INI_XDEBUG__REMOTE_CONNECT_BACK: "on"
+        PHP_INI_XDEBUG__IDEKEY: "docker"
+        PHP_INI_ERROR_REPORTING: E_ALL
+      networks:
+        - pineapple_network
+  
+  pineapple-mysql:
+    container_name: pineapple-mysql
+    image: mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mydb:/var/lib/mysql:delegated
+    restart: always
+    networks:
+      - pineapple_network
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pineapple
+      MYSQL_USER: pineapple
+    logging:
+      driver: json-file
+
+networks:
+  pineapple_network:
+    driver: bridge
+
+  

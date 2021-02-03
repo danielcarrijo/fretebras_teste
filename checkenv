@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+set -e
+
+# sed -i '17s|^|//|' /var/www/html/app/Providers/AppServiceProvider.php
+
+cd /var/www/html/ \
+    && composer install && php artisan migrate
+
+service supervisor start
+FILE=.env
+if [ -f "$FILE" ]; then
+    echo "Env file exists. Skipping generation."
+else 
+    cp .env.example .env
+    php artisan key:generate
+fi
+#Change file permissions, except for node_modules. Volume mounts this directory. And if permissions change, Node yells at you.
+chown -R www-data:www-data $(ls -A | awk '{if($1 != "node_modules"){ print $1 }}')
+chmod g+rw -R $(ls -A | awk '{if($1 != "node_modules"){ print $1 }}')
+# sed -i '17s|//||' /var/www/html/app/Providers/AppServiceProvider.php
+
+# first arg is `-f` or `--some-option`
+#if [ "${1#-}" != "$1" ]; then
+#	set -- php "$@"
+#fi
+
+#exec "$@"
+echo "Starting Apache..."
+apache2ctl -D FOREGROUND
