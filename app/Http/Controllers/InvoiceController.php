@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PaymentFilterRequest;
-use App\Http\Resources\PaymentCollection;
-use App\Models\Payment;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
-class PaymentsController extends Controller
+class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(PaymentFilterRequest $request)
-    {   
-        $query = Payment::filterBy($request->all())->ordered();
-        $result = $query->paginate(15);
-        return new PaymentCollection($result, $query);
+    public function index(Request $request)
+    {
+        return response()->json(Invoice::filterBy($request->all())->ordered()->paginate(12));
     }
 
     /**

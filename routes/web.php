@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('{routes}', function () {
+    return view('welcome'); // your start view
+})->where('routes', '^((?!api).)*$'); // except 'api' word

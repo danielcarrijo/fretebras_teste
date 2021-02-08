@@ -20,7 +20,6 @@ class FilterBuilder
         foreach ($this->filters as $name => $value) {
             $normailizedName = ucfirst($name);
             $class = $this->namespace . "\\{$normailizedName}";
-
             if (!class_exists($class)) {
                 continue;
             }
@@ -31,7 +30,6 @@ class FilterBuilder
                 (new $class($this->query))->handle();
             }
         }
-
         return $this->query;
     }
 }

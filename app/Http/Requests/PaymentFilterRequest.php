@@ -15,6 +15,7 @@ class PaymentFilterRequest extends FormRequest
     {
         return [
             'integer' => 'O campo :attribute deve ser passado como um número inteiro.',
+            'invoice.exists' => 'O campo :attribute não existe correspondência na tabela payments'
         ];
     }
 
@@ -32,7 +33,9 @@ class PaymentFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'time' => 'integer'
+            'time' => 'integer',
+            'invoice' => 'integer|exists:invoices,id',
+            'store' => 'string'
         ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
+use DB;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
@@ -23,6 +23,8 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
     ];
+
+    protected $appends = ['scores'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -51,12 +53,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Payment::class);
     }
 
-    public function getPayDateAttribute() {
-        return 15;
+    public function getScoresAttribute() {
+        return Payment::join('users', 'users.id', '=', 'payments.user_id')
+                ->join('stores', 'stores.id', '=', 'payments.store_id')
+                ->join('categories', 'categories.id', '=', 'stores.category_id')
+                ->active()
+                ->select(DB::raw('sum(categories.score_fee*payments.price) as total_scores'))->first()->total_scores;
     }
 
-    public function getLimitAttribute() {
-        return Carbon::now()->firstOfMonth()->addDays(14);
+    public function getPayDateAttribute() {
+        return 15;
     }
 
     public function getJWTIdentifier()
