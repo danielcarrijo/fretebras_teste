@@ -8,9 +8,9 @@ Este projeto foi desenvolvido utilizando o framework Laravel para o backend e Re
 
 <ol>
     <li>É necessário ter o docker e docker-compose instalado.</li>
+    <li>Copie o arquivo .env.example existente no projeto e cole com o nome de .env.</li>
     <li>Execute o seguinte comando na pasta raiz do projeto: docker-compose -f "docker-compose.yaml" up -d --build </li>
     <li>Execute: docker ps. Pegue o ID do Container e entre dentro do mesmo com o seguinte comando:  docker exec -it ID bash</li>
-    <li>Copie o arquivo .env.example existente no projeto e cole com o nome de .env.</li>
     <li>Troque as credencias do banco para:
         <ul>
         <li>DB_CONNECTION=mysql</li>
