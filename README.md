@@ -28,6 +28,7 @@ Este projeto foi desenvolvido utilizando o framework Laravel para o backend e Re
     <li>Faça o seed do banco: php artisan db:seed</li>
     <li>Rode: npm install && npm run dev</li>
     <li>Acesse http://localhost.</li>
+    <li>Email: usuario.teste@teste.com; senha: 12345678</li>
     <li>Caso queira, rode php artisan test para executar os testes.</li>
     
 </ol>
