@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Carbon\Carbon;
+use DB;
 class Invoice extends Model
 {
     use HasFactory;
 
     protected $fillable = ['user_id', 'start_date', 'end_date'];
-    protected $appends = ['current', 'formatted_start_date', 'formatted_end_date', 'status', 'pay_date'];
+    protected $appends = ['current', 'formatted_start_date', 'formatted_end_date', 'status', 'pay_date', 'scores'];
 
     public function payments() {
         return $this->hasMany(Payment::class); 
@@ -30,6 +31,15 @@ class Invoice extends Model
         $filter = new FilterBuilder($query, $filters, $namespace);
 
         return $filter->apply();
+    }
+
+    public function getScoresAttribute() {
+        return Payment::join('users', 'users.id', '=', 'payments.user_id')
+                ->join('stores', 'stores.id', '=', 'payments.store_id')
+                ->join('categories', 'categories.id', '=', 'stores.category_id')
+                ->active()
+                ->where('payments.invoice_id', $this->id)
+                ->select(DB::raw('sum(categories.score_fee*payments.price) as total_scores'))->first()->total_scores;
     }
 
     public function getCurrentAttribute() {

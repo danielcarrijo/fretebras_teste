@@ -19,6 +19,7 @@ export default function Pagamento(props) {
                         <div className="info col-10">
                             <div className="payment" style={invoice.status == 'prev' ? green : (invoice.status == 'next' ? yellow : (invoice.status == 'open' ? yellow : red))}>{invoice.status == 'prev' ? 'Pagamento Realizado' : (invoice.status == 'next' ? 'Próxima fatura' : (invoice.status == 'open' ? 'Fatura aberta' : 'Fatura fechada'))}</div>
                             <div className="price"> R$ {value ? value : 0}</div>
+                            <div className="price"> {invoice && invoice.scores ? (invoice.scores.toFixed(2)) + 'pts': '0pts'}</div>
                         </div>
                         <div className="date col-2">
                             <div className="ml-auto">02:39</div>

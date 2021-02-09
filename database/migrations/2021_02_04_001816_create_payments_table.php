@@ -20,7 +20,6 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->decimal('price', 10, 2);
             $table->datetime('time');
-            $table->boolean('chargeback')->default(false);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->foreign('store_id')->references('id')->on('stores');

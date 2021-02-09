@@ -14,7 +14,7 @@ export default function Item(props) {
                     <div className="info col-10">
                         <div className="store">{item?.store?.name}</div>
                         <div className="price"> R$ {item && item.price ? (item.price > 0 ? item.price : item.price * (-1)): ''}</div>
-                        <div className="price"> {item && item.score ? Math.round(item.score) + 'pts': '0pts'}</div>
+                        <div className="price"> {item && item.score ? (item.score.toFixed(2)) + 'pts': '0pts'}</div>
                         {item && item.price && item.price < 0 &&
                         <div className="chargeback-message">
                             <div>Estorno</div>
