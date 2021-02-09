@@ -9,7 +9,7 @@ Este projeto foi desenvolvido utilizando o framework Laravel para o backend e Re
 <ol>
     <li>É necessário ter o docker e docker-compose instalado.</li>
     <li>Copie o arquivo .env.example existente no projeto e cole com o nome de .env.</li>
-    <li>Execute o seguinte comando na pasta raiz do projeto: docker-compose -f "docker-compose.yaml" up -d --build </li>
+    <li>Execute o seguinte comando na pasta raiz do projeto: docker-compose -f "docker-compose.yml" up -d --build </li>
     <li>Execute: docker ps. Pegue o ID do Container e entre dentro do mesmo com o seguinte comando:  docker exec -it ID bash</li>
     <li>Troque as credencias do banco para:
         <ul>
@@ -21,7 +21,8 @@ Este projeto foi desenvolvido utilizando o framework Laravel para o backend e Re
         <li>DB_PASSWORD=root</li>
         </ul>
     <p>Dentro do container:</p> 
-    <li>Execute as migrations: php artisan migrate</li>
+    <li>Rode: composer install </li>
+    <li>Ao subir o container, as migrations já são executadas, mas caso sinta necessidade de executar manualmente, execute: php artisan migrate</li>
     <li>Faça o seed do banco: php artisan db:seed</li>
     <li>Rode: npm install && npm run dev</li>
     <li>Acesse http://localhost.</li>
