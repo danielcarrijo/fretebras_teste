@@ -22,6 +22,8 @@ Este projeto foi desenvolvido utilizando o framework Laravel para o backend e Re
         </ul>
     <p>Dentro do container:</p> 
     <li>Rode: composer install </li>
+    <li>Rode: php artisan key:generate</li>
+    <li>Rode: php artisan jwt:secret</li>
     <li>Ao subir o container, as migrations já são executadas, mas caso sinta necessidade de executar manualmente, execute: php artisan migrate</li>
     <li>Faça o seed do banco: php artisan db:seed</li>
     <li>Rode: npm install && npm run dev</li>
